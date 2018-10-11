@@ -2508,3 +2508,7 @@ If you're seeing this error, you're likely using an old version of `react-script
 ## Something Missing?
 
 If you have ideas for more “How To” recipes that should be on this page, [let us know](https://github.com/facebook/create-react-app/issues) or [contribute some!](https://github.com/facebook/create-react-app/edit/master/packages/react-scripts/template/README.md)
+<<<<<<< HEAD
+=======
+# ReactMobxBP
+>>>>>>> d6939a5516d826d0931b49a903d708c866f402bc
