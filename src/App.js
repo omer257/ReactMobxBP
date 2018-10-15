@@ -17,7 +17,7 @@ class App extends Component {
 
   render() {
     let data = this.state;
-    console.log(data)
+    console.log(dat)
     return (
       <div className="App">
         <header className="App-header">
