@@ -1,17 +1,23 @@
 const express = require('express')
+const bodyParser = require('body-parser') 
+const expressSession = require('express-session') 
+const passport = require('./passport');
 const app = express()
-const port = process.env.PORT || 5000
-const api = require('./api');
+const PORT = 5000
+const user = require('./routes/user')
 
-app.use('/',api)
+//bodyParser
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
-if (process.env.NODE_ENV === 'production') {
-    // Serve any static files
-    app.use(express.static(path.join(__dirname, 'client/build')));
-    // Handle React routing, return all requests to React app
-    app.get('*', function(req, res) {
-      res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-    });
-  }
-  
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+//Passport and session
+app.use(expressSession({ secret: 'thisIsASecret', resave: false, saveUninitialized: false }));
+app.use(passport.initialize())
+app.use(passport.session()) 
+
+
+app.use('/user', user)
+
+app.listen(PORT, () => {
+	console.log(`App listening on PORT: ${PORT}`)
+})

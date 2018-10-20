@@ -1,33 +1,65 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import axios from 'axios';
+import axios from 'axios'
+import { Route, Link } from 'react-router-dom'
+ import LoginForm from './components/login'
+import Navbar from './components/navbar'
+import Home from './components/home'
 
 class App extends Component {
-  super(props){
+  constructor() {
+    super()
     this.state = {
-      data: null,
-    };
-  }
-  componentDidMount() {
-    //Testing api works
-    let data = axios('/foodApi')
-    .then(data => this.setState({ data:data.data }));
+      loggedIn: false,
+      username: null
+    } 
   }
 
+  componentDidMount = ()=> {
+    this.getUser()
+  }
+
+  updateUser = (userObject) =>{
+    this.setState(userObject)
+  }
+
+  getUser = ()=>{
+    axios.get('/user/').then(response => { 
+      if (response.data.user) {
+        console.log('Get User: There is a user saved in the server session: ') 
+        this.updateUser({
+          loggedIn: true,
+          username: response.data.user.username
+        })
+      } else {
+        console.log('Get user: no user');
+        this.updateUser({
+          loggedIn: false,
+          username: null
+        })
+      }
+    })
+  }
+
+  logout = (event)=>{
+    event.preventDefault()
+    axios.post('/user/logout').then(response => {
+        if (response.status === 200) {
+            this.updateUser({
+                loggedIn: false,
+                username: null
+            })
+        }
+    }).catch(error => {
+        console.log('Logout error')
+    })
+}
+
   render() {
-    let data = this.state;
-    console.log(data)
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-           Create-react-app with decorators and mobx support.<br />
-           Have fun!
-          </p>
-         
-        </header>
+        <Navbar logout={this.logout} loggedIn={this.state.loggedIn} />  
+        <Route exact path="/" component={Home} />
+        <Route path="/login" render={() => <LoginForm updateUser={this.updateUser} />}/> 
       </div>
     );
   }
