@@ -19,6 +19,7 @@ class LoginForm extends Component {
     }
 
     handleSubmit = (event) => {
+        //Send data to server via ajax
         event.preventDefault()
         axios
             .post('/user/login', {
@@ -27,6 +28,8 @@ class LoginForm extends Component {
             })
             .then(response => {
                 if (response.status === 200) {
+                    //If authenticaned update parent state and redirect 
+                    //by changing state and using redirect below
                     this.props.updateUser({
                         loggedIn: true,
                         username: response.data.username
@@ -42,6 +45,7 @@ class LoginForm extends Component {
     }
 
     render() {
+        //redirect by state
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
         } else {

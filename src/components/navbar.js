@@ -6,7 +6,7 @@ import axios from 'axios'
 class Navbar extends Component {  
     render() {
         const loggedIn = this.props.loggedIn;
-
+        //Conditional render of nav bar
         return (
             <header>
                 {loggedIn ? ( 

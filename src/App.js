@@ -9,13 +9,13 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      loggedIn: false,
-      username: null
+      loggedIn: false 
     } 
   }
 
   componentDidMount = ()=> {
     this.getUser()
+    //Check user at loading time
   }
 
   updateUser = (userObject) =>{
@@ -23,30 +23,29 @@ class App extends Component {
   }
 
   getUser = ()=>{
+    //Check if there are user details in session and pass data by state
     axios.get('/user/').then(response => { 
       if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ') 
+        console.log('Yes ') 
         this.updateUser({
-          loggedIn: true,
-          username: response.data.user.username
+          loggedIn: true 
         })
       } else {
-        console.log('Get user: no user');
+        console.log('No user');
         this.updateUser({
-          loggedIn: false,
-          username: null
+          loggedIn: false 
         })
       }
     })
   }
 
   logout = (event)=>{
+    //Post to logout and update state
     event.preventDefault()
     axios.post('/user/logout').then(response => {
         if (response.status === 200) {
             this.updateUser({
-                loggedIn: false,
-                username: null
+                loggedIn: false 
             })
         }
     }).catch(error => {
@@ -55,6 +54,7 @@ class App extends Component {
 }
 
   render() {
+    //Pass state and logout function
     return (
       <div className="App">
         <Navbar logout={this.logout} loggedIn={this.state.loggedIn} />  

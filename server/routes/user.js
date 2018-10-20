@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const passport = require('../passport')
 
+//No redirect
 router.post('/login', passport.authenticate('local'), (req, res) => {
     res.send(req.user.username);
     }
